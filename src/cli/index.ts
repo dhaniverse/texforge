@@ -12,13 +12,24 @@ import { TextureForge } from '../converter/TextureForge.js';
 import { ConversionResult } from '../core/types.js';
 import { promises as fs } from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Read version from package.json synchronously
+import { readFileSync } from 'fs';
+const packageJson = JSON.parse(
+  readFileSync(path.join(__dirname, '../../package.json'), 'utf-8')
+);
 
 const program = new Command();
 
 program
   .name('texforge')
   .description('Forge textures for the GPU age - Convert images to KTX2')
-  .version('0.1.0');
+  .version(packageJson.version);
 
 program
   .command('convert')
