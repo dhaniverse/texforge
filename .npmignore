@@ -1,0 +1,22 @@
+# Source files
+src/
+tests/
+*.test.ts
+
+# Config files
+tsconfig.json
+.eslintrc.*
+.prettierrc
+vitest.config.ts
+
+# CI/CD
+.github/
+
+# Development
+node_modules/
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
