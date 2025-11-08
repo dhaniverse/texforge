@@ -1,6 +1,6 @@
 {
   "name": "texforge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Forge textures for the GPU age. Convert PNG/JPG to KTX2 with blazing fast compression. 90% smaller files, hardware-accelerated loading for Phaser, Three.js, and Babylon.js.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -23,6 +23,7 @@
     "test:watch": "vitest",
     "lint": "eslint src/**/*.ts",
     "prepublishOnly": "npm run build",
+    "postinstall": "node scripts/install-toktx.js",
     "check:toktx": "node -e \"require('child_process').execSync('toktx --version', {stdio:'inherit'})\""
   },
   "keywords": [
@@ -56,6 +57,7 @@
   "homepage": "https://github.com/dhaniverse/texforge#readme",
   "files": [
     "dist",
+    "scripts",
     "README.md",
     "LICENSE"
   ],
