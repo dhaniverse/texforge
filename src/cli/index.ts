@@ -105,15 +105,14 @@ program
 
         progressBar.start(imageFiles.length, 0, { filename: '' });
 
-        const results = await forge.convertDirectory(input, options.output);
-        
+        // Convert files with live progress updates
         let successCount = 0;
         let failureCount = 0;
         let totalOriginalSize = 0;
         let totalCompressedSize = 0;
 
-        results.forEach((result: ConversionResult, index: number) => {
-          progressBar.update(index + 1, { filename: path.basename(result.inputFile) });
+        await forge.convertDirectory(input, options.output, undefined, (current, total, file, result) => {
+          progressBar.update(current, { filename: file });
           
           if (result.success) {
             successCount++;

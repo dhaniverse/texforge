@@ -85,7 +85,8 @@ export class TextureForge {
   async convertDirectory(
     inputDir: string,
     outputDir?: string,
-    filePattern: RegExp = /\.(png|jpg|jpeg)$/i
+    filePattern: RegExp = /\.(png|jpg|jpeg)$/i,
+    onProgress?: (current: number, total: number, file: string, result: ConversionResult) => void
   ): Promise<ConversionResult[]> {
     // Read directory
     const files = await fs.readdir(inputDir);
@@ -102,7 +103,8 @@ export class TextureForge {
     // Convert files sequentially (parallel can overwhelm system)
     const results: ConversionResult[] = [];
 
-    for (const file of imageFiles) {
+    for (let i = 0; i < imageFiles.length; i++) {
+      const file = imageFiles[i];
       const inputPath = path.join(inputDir, file);
       const outputPath = outputDir 
         ? path.join(outputDir, file.replace(/\.(png|jpg|jpeg)$/i, '.ktx2'))
@@ -110,6 +112,11 @@ export class TextureForge {
 
       const result = await this.convertFile(inputPath, outputPath);
       results.push(result);
+      
+      // Call progress callback after each file
+      if (onProgress) {
+        onProgress(i + 1, imageFiles.length, file, result);
+      }
     }
 
     return results;
